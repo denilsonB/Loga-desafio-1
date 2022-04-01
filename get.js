@@ -1,19 +1,23 @@
 function get(path,data){
-    path = path.replace(/\[(\w+)\]/g, '.$1'); 
-    path = path.replace(/^\./, '');           
-    var properties = path.split('.');
-    
-    for (var i = 0, n = properties.length; i < n; ++i) {
-        var property = properties[i];
-        try{
-            if (property in data) {
-                data = data[property];
-        } else {
-            return;
+    try{
+        path = path.toString();//caso a entrada esteja em formato de array
+        path = path.replaceAll(',','.')
+
+        path = path.replace(/\[(\w+)\]/g, '.$1'); 
+        path = path.replace(/^\./, '');     
+        console.log(path);      
+        var properties = path.split('.');
+        for (var i = 0, n = properties.length; i < n; ++i) {
+            var property = properties[i];
+            
+                if (property in data) {
+                    data = data[property];
+            } else {
+                return;
+            }
         }
-    }catch{
-        return undefined;
+        return data;
+        }catch{
+            return undefined;
+        }
     }
-    }
-    return data;
-}
